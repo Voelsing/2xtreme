@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
   $ok=$user && $user['is_active'] && $user['email_verified_at']!==null && verifyPassword($user['password_hash'],$p);
   recordAttempt($conn,$u,$ok);
   if (!$ok){ audit($conn,null,'login.fail','user',$u,null); http_response_code(401); exit('invalid'); }
+  clearLoginAttempts($conn,$u);
   session_regenerate_id(true);
   $_SESSION['user_id']=(int)$user['id'];
   audit($conn,$user['id'],'login.success','user',(string)$user['id'],null);

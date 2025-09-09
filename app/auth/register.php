@@ -4,11 +4,7 @@ require_once __DIR__.'/../core/session.php';
 require_once __DIR__.'/../core/csrf.php';
 require_once __DIR__.'/../core/security.php';
 require_once __DIR__.'/../core/audit.php';
-
-// allow registration only if no user exists yet
-$cntRes=$conn->query("SELECT COUNT(*) cnt FROM user");
-$hasUser=((int)($cntRes->fetch_assoc()['cnt']??0))>0;
-if($hasUser){ http_response_code(403); exit('forbidden'); }
+require_once __DIR__.'/../core/auth.php';
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
   checkCsrfOrFail();
@@ -27,6 +23,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $st=$conn->prepare("INSERT INTO user_role (user_id,role_id) VALUES (?,?)");
     $st->bind_param('ii',$uid,$role);
     $st->execute(); $st->close();
+    clearLoginAttempts($conn,$u);
     $conn->commit();
     audit($conn,$uid,'user.register','user',(string)$uid,null);
   }catch(Throwable $ex){
