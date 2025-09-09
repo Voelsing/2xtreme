@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__.'/../core/bootstrap.php';
 requirePerm($perms,'x.create');
@@ -11,3 +10,4 @@ $h=$conn->prepare("INSERT INTO x_history (x_id,actor_id,action,field,new_value) 
 $act='created'; $fld='title'; $nv=$title; $h->bind_param('iisss',$id,$userId,$act,$fld,$nv); $h->execute(); $h->close();
 audit($conn,$userId,'x.create','x',(string)$id,['title'=>$title]);
 header("Location: x_view.php?id=".$id);
+exit;
