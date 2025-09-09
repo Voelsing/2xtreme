@@ -16,3 +16,7 @@ function tooManyFails(mysqli $c, string $u, int $n=5, int $min=15): bool {
   $st=$c->prepare("SELECT COUNT(*) cnt FROM login_attempt WHERE username=? AND succeeded=0 AND created_at>DATE_SUB(UTC_TIMESTAMP(), INTERVAL ? MINUTE)");
   $st->bind_param('si',$u,$min); $st->execute(); $cnt=$st->get_result()->fetch_assoc()['cnt']??0; return $cnt>=$n;
 }
+function clearLoginAttempts(mysqli $c, string $u): void {
+  $st=$c->prepare("DELETE FROM login_attempt WHERE username=?");
+  $st->bind_param('s',$u); $st->execute(); $st->close();
+}
