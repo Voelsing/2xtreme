@@ -63,4 +63,4 @@ $cst->bind_param('i',$id); $cst->execute(); $comments=$cst->get_result()->fetch_
 </ul>
 <?php endif; ?>
 </body></html>
-</body></html>
+
