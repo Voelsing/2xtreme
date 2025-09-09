@@ -29,7 +29,7 @@ $total=$conn->query("SELECT FOUND_ROWS() total")->fetch_assoc()['total'] ?? 0;
   </select>
   <button>Suche</button>
 </form>
-<p><a href="x_new.html">Neu</a></p>
+<p><a href="x_new.php">Neu</a></p>
 <table border="1" cellpadding="4">
 <tr><th>ID</th><th>Titel</th><th>Status</th><th>Stand</th></tr>
 <?php foreach($rows as $r): ?>

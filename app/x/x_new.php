@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/../core/bootstrap.php'; ?>
 
 <!doctype html><html><body>
 <h1>x anlegen</h1>
