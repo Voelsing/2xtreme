@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   }
   session_regenerate_id(true);
   $_SESSION['user_id']=(int)$uid;
-  header('Location: /app/x/x_list.php'); exit;
+    header('Location: '.BASE_URL.'/app/x/x_list.php'); exit;
 }
 ?>
 <?php $title='Register'; require __DIR__.'/../core/header.php'; ?>
