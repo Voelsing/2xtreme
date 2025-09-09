@@ -14,7 +14,7 @@ $fst->bind_param('i',$id); $fst->execute(); $files=$fst->get_result()->fetch_all
 $cst=$conn->prepare("SELECT c.id, c.body, c.created_at, u.username FROM x_comment c JOIN user u ON c.user_id=u.id WHERE c.x_id=? ORDER BY c.created_at");
 $cst->bind_param('i',$id); $cst->execute(); $comments=$cst->get_result()->fetch_all(MYSQLI_ASSOC); $cst->close();
 ?>
-<!doctype html><html><body>
+<?php $title='x #'.(int)$x['id']; require __DIR__.'/../core/header.php'; ?>
 <h1>x #<?= (int)$x['id'] ?></h1>
 <form method="post" action="x_update.php">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
@@ -54,11 +54,4 @@ $cst->bind_param('i',$id); $cst->execute(); $comments=$cst->get_result()->fetch_
   <textarea name="body"></textarea><br>
   <button>Kommentieren</button>
 </form>
-<?php if ($comments): ?>
-<ul>
-  <?php foreach($comments as $c): ?>
-    <li><strong><?=h($c['username'])?></strong> (<?=h($c['created_at'])?>): <?=nl2br(h($c['body']))?></li>
-  <?php endforeach; ?>
-</ul>
-<?php endif; ?>
-</body></html>
+

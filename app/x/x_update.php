@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__.'/../core/bootstrap.php'; checkCsrfOrFail(); requirePerm($perms,'x.update');
 $id=(int)($_POST['id']??0); if ($id<=0){ http_response_code(400); exit('bad'); }
@@ -19,3 +18,4 @@ if ($desc!==$oD){ $a='updated'; $f='description'; $log->bind_param('iissss',$id,
 if ($status!==$oS){ $a='status_change'; $f='status'; $log->bind_param('iissss',$id,$userId,$a,$f,$oS,$status); $log->execute(); }
 $log->close(); audit($conn,$userId,'x.update','x',(string)$id,['title'=>$title,'status'=>$status]);
 header("Location: x_view.php?id=".$id);
+exit;

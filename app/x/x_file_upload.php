@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__.'/../core/bootstrap.php'; checkCsrfOrFail();
 $xId=(int)($_POST['x_id']??0);
@@ -17,3 +16,4 @@ $h=$conn->prepare("INSERT INTO x_history (x_id,actor_id,action,field,new_value) 
 $a='file_added'; $f='file'; $nv=$orig; $h->bind_param('iisss',$xId,$userId,$a,$f,$nv); $h->execute(); $h->close();
 audit($conn,$userId,'x.file.add','x',(string)$xId,['file'=>$orig]);
 header("Location: x_view.php?id=".$xId."#files");
+exit;
