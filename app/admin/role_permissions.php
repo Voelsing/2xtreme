@@ -1,4 +1,7 @@
 
 <?php
 require_once __DIR__.'/../core/bootstrap.php'; requirePerm($perms,'user.manage');
-echo "<h1>Role Permissions Placeholder</h1>";
+$title='Role Permissions'; require __DIR__.'/../core/header.php';
+?>
+<h1>Role Permissions Placeholder</h1>
+<?php require __DIR__.'/../core/footer.php'; ?>

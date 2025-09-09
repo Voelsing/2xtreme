@@ -8,7 +8,7 @@ if (!$x){ http_response_code(404); exit('not found'); }
 $mayRead = can($perms,'x.view_any') || (can($perms,'x.view_own') && (int)$x['owner_id']===$userId);
 if (!$mayRead){ http_response_code(403); exit('forbidden'); }
 ?>
-<!doctype html><html><body>
+<?php $title='x #'.(int)$x['id']; require __DIR__.'/../core/header.php'; ?>
 <h1>x #<?= (int)$x['id'] ?></h1>
 <form method="post" action="x_update.php">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
@@ -41,4 +41,4 @@ if (!$mayRead){ http_response_code(403); exit('forbidden'); }
   <textarea name="body"></textarea><br>
   <button>Kommentieren</button>
 </form>
-</body></html>
+<?php require __DIR__.'/../core/footer.php'; ?>
