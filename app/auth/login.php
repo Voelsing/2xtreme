@@ -8,6 +8,11 @@ require_once __DIR__.'/../core/audit.php';
 require_once __DIR__.'/../core/rbac.php';
 require_once __DIR__.'/../core/auth.php';
 
+// redirect to registration if no user exists yet
+$cntRes=$conn->query("SELECT COUNT(*) cnt FROM user");
+$hasUser=((int)($cntRes->fetch_assoc()['cnt']??0))>0;
+if(!$hasUser){ header('Location: /app/auth/register.php'); exit; }
+
 if ($_SERVER['REQUEST_METHOD']==='POST') {
   checkCsrfOrFail();
   $u=trim($_POST['username']??''); $p=$_POST['password']??'';
