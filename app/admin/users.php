@@ -23,7 +23,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $st->close();
     } else {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $st = $conn->prepare("INSERT INTO user (username,email,password_hash) VALUES (?,?,?)");
+        // Mark admin-created users as verified so they can log in immediately
+        $st = $conn->prepare("INSERT INTO user (username,email,password_hash,email_verified_at) VALUES (?,?,?,UTC_TIMESTAMP())");
         $st->bind_param('sss', $username, $email, $hash);
         $st->execute();
         $id = $st->insert_id;
