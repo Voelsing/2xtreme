@@ -55,3 +55,12 @@ $cst->bind_param('i',$id); $cst->execute(); $comments=$cst->get_result()->fetch_
   <button>Kommentieren</button>
 </form>
 
+<?php if ($comments): ?>
+<ul>
+  <?php foreach($comments as $c): ?>
+    <li><strong><?=h($c['username'])?></strong> (<?=h($c['created_at'])?>): <?=nl2br(h($c['body']))?></li>
+  <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+</body></html>
+</body></html>
