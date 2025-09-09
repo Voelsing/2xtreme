@@ -7,6 +7,12 @@ $st->bind_param('i',$id); $st->execute(); $x=$st->get_result()->fetch_assoc(); $
 if (!$x){ http_response_code(404); exit('not found'); }
 $mayRead = can($perms,'x.view_any') || (can($perms,'x.view_own') && (int)$x['owner_id']===$userId);
 if (!$mayRead){ http_response_code(403); exit('forbidden'); }
+
+$fst=$conn->prepare("SELECT id, original_name, stored_path FROM x_file WHERE x_id=? ORDER BY created_at");
+$fst->bind_param('i',$id); $fst->execute(); $files=$fst->get_result()->fetch_all(MYSQLI_ASSOC); $fst->close();
+
+$cst=$conn->prepare("SELECT c.id, c.body, c.created_at, u.username FROM x_comment c JOIN user u ON c.user_id=u.id WHERE c.x_id=? ORDER BY c.created_at");
+$cst->bind_param('i',$id); $cst->execute(); $comments=$cst->get_result()->fetch_all(MYSQLI_ASSOC); $cst->close();
 ?>
 <!doctype html><html><body>
 <h1>x #<?= (int)$x['id'] ?></h1>
@@ -26,19 +32,33 @@ if (!$mayRead){ http_response_code(403); exit('forbidden'); }
   <button type="submit">Speichern</button>
 </form>
 
-<h2>Datei hochladen</h2>
+<h2 id="files">Datei hochladen</h2>
 <form method="post" action="x_file_upload.php" enctype="multipart/form-data">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
   <input type="hidden" name="x_id" value="<?= (int)$x['id'] ?>">
   <input type="file" name="file">
   <button type="submit">Upload</button>
 </form>
+<?php if ($files): ?>
+<ul>
+  <?php foreach($files as $f): ?>
+    <li><a href="../../<?=h($f['stored_path'])?>" download><?=h($f['original_name'])?></a></li>
+  <?php endforeach; ?>
+</ul>
+<?php endif; ?>
 
-<h2>Kommentar</h2>
+<h2 id="comments">Kommentar</h2>
 <form method="post" action="x_comment_add.php">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
   <input type="hidden" name="x_id" value="<?= (int)$x['id'] ?>">
   <textarea name="body"></textarea><br>
   <button>Kommentieren</button>
 </form>
+<?php if ($comments): ?>
+<ul>
+  <?php foreach($comments as $c): ?>
+    <li><strong><?=h($c['username'])?></strong> (<?=h($c['created_at'])?>): <?=nl2br(h($c['body']))?></li>
+  <?php endforeach; ?>
+</ul>
+<?php endif; ?>
 </body></html>
