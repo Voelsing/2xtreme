@@ -41,4 +41,11 @@ if (!$mayRead){ http_response_code(403); exit('forbidden'); }
   <textarea name="body"></textarea><br>
   <button>Kommentieren</button>
 </form>
+
+<h2>Löschen</h2>
+<form method="post" action="x_delete.php" onsubmit="return confirm('Wirklich löschen?');">
+  <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
+  <input type="hidden" name="id" value="<?= (int)$x['id'] ?>">
+  <button type="submit">Löschen</button>
+</form>
 </body></html>
