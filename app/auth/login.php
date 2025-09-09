@@ -11,7 +11,7 @@ require_once __DIR__.'/../core/auth.php';
 // redirect to registration if no user exists yet
 $cntRes=$conn->query("SELECT COUNT(*) cnt FROM user");
 $hasUser=((int)($cntRes->fetch_assoc()['cnt']??0))>0;
-if(!$hasUser){ header('Location: /app/auth/register.php'); exit; }
+  if(!$hasUser){ header('Location: '.BASE_URL.'/app/auth/register.php'); exit; }
 
 if ($_SERVER['REQUEST_METHOD']==='POST') {
   checkCsrfOrFail();
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
   session_regenerate_id(true);
   $_SESSION['user_id']=(int)$user['id'];
   audit($conn,$user['id'],'login.success','user',(string)$user['id'],null);
-  header('Location: /app/x/x_list.php'); exit;
+    header('Location: '.BASE_URL.'/app/x/x_list.php'); exit;
 }
 ?>
 <?php $title='Login'; require __DIR__.'/../core/header.php'; ?>

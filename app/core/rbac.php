@@ -1,7 +1,7 @@
 
 <?php
 function requireLogin(): void {
-  if (!isset($_SESSION['user_id'])) { header('Location: /app/auth/login.php'); exit; }
+  if (!isset($_SESSION['user_id'])) { header('Location: '.BASE_URL.'/app/auth/login.php'); exit; }
 }
 function userPermissions(mysqli $c, int $userId): array {
   $sql = "SELECT p.code FROM user_role ur
