@@ -19,18 +19,22 @@ $total=$conn->query("SELECT FOUND_ROWS() total")->fetch_assoc()['total'] ?? 0;
 ?>
 <?php $title='x Liste'; require __DIR__.'/../core/header.php'; ?>
 <h1>x Liste</h1>
-<form>
-  <input name="query" value="<?=h($q)?>">
-  <select name="status">
-    <option value="">alle</option>
-    <?php foreach(['draft','open','in_progress','done','archived'] as $s): ?>
-      <option value="<?=$s?>" <?=$status===$s?'selected':''?>><?=$s?></option>
-    <?php endforeach; ?>
-  </select>
-  <button>Suche</button>
+<form class="mb-3">
+  <div class="mb-3">
+    <input name="query" value="<?=h($q)?>" class="form-control" placeholder="Suche">
+  </div>
+  <div class="mb-3">
+    <select name="status" class="form-select">
+      <option value="">alle</option>
+      <?php foreach(['draft','open','in_progress','done','archived'] as $s): ?>
+        <option value="<?=$s?>" <?=$status===$s?'selected':''?>><?=$s?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <button class="btn btn-primary">Suche</button>
 </form>
-<p><a href="x_new.php">Neu</a></p>
-<table border="1" cellpadding="4">
+<p><a href="x_new.php" class="btn btn-success">Neu</a></p>
+<table class="table table-striped">
 <tr><th>ID</th><th>Titel</th><th>Status</th><th>Stand</th></tr>
 <?php foreach($rows as $r): ?>
 <tr>

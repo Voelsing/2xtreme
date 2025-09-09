@@ -51,13 +51,13 @@ require __DIR__.'/../core/header.php';
 ?>
 <h1>Role Permissions</h1>
 
-<table border="1" cellpadding="4">
+<table class="table table-striped">
 <tr><th>Role</th><th>Permissions</th><th></th></tr>
 <?php foreach($rolePerms as $rp): ?>
 <tr>
   <td><?= h($rp['name']) ?></td>
   <td><?= h($rp['perms']) ?></td>
-  <td><a href="?role_id=<?= (int)$rp['id'] ?>">edit</a></td>
+  <td><a href="?role_id=<?= (int)$rp['id'] ?>" class="btn btn-sm btn-secondary">edit</a></td>
 </tr>
 <?php endforeach; ?>
 </table>
@@ -65,21 +65,23 @@ require __DIR__.'/../core/header.php';
 <h2>Assign Permissions</h2>
 <form method="post">
   <input type="hidden" name="csrf" value="<?=h(csrfToken())?>">
-  <label>Role
-    <select name="role_id">
+  <div class="mb-3">
+    <label class="form-label">Role</label>
+    <select name="role_id" class="form-select">
       <?php foreach($roles as $r): ?>
         <option value="<?=$r['id']?>" <?= $roleId===$r['id']?'selected':''?>><?=h($r['name'])?></option>
       <?php endforeach; ?>
     </select>
-  </label><br>
-  <label>Permissions
-    <select name="permissions[]" multiple size="5">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Permissions</label>
+    <select name="permissions[]" multiple size="5" class="form-select">
       <?php foreach($permissions as $p): ?>
         <option value="<?=$p['id']?>" <?= in_array($p['id'], $selected) ? 'selected' : '' ?>><?=h($p['code'])?></option>
       <?php endforeach; ?>
     </select>
-  </label><br>
-  <button type="submit">Save</button>
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Save</button>
 </form>
 
 <?php require __DIR__.'/../core/footer.php'; ?>

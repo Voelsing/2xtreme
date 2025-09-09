@@ -16,56 +16,67 @@ $cst->bind_param('i',$id); $cst->execute(); $comments=$cst->get_result()->fetch_
 ?>
 <?php $title='x #'.(int)$x['id']; require __DIR__.'/../core/header.php'; ?>
 <h1>x #<?= (int)$x['id'] ?></h1>
-<form method="post" action="x_update.php">
+<form method="post" action="x_update.php" class="mb-3">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
   <input type="hidden" name="id" value="<?= (int)$x['id'] ?>">
   <input type="hidden" name="updated_at_iso" value="<?= htmlspecialchars($x['updated_at'] ?? '', ENT_QUOTES) ?>">
-  <label>Titel <input name="title" value="<?=h($x['title'])?>"></label><br>
-  <label>Beschreibung <textarea name="description"><?=h($x['description'])?></textarea></label><br>
-  <label>Status
-    <select name="status">
+  <div class="mb-3">
+    <label class="form-label">Titel</label>
+    <input name="title" value="<?=h($x['title'])?>" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Beschreibung</label>
+    <textarea name="description" class="form-control"><?=h($x['description'])?></textarea>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Status</label>
+    <select name="status" class="form-select">
       <?php foreach(['draft','open','in_progress','done','archived'] as $s): ?>
         <option value="<?=$s?>" <?=$x['status']===$s?'selected':''?>><?=$s?></option>
       <?php endforeach; ?>
     </select>
-  </label><br>
-  <button type="submit">Speichern</button>
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Speichern</button>
 </form>
 
 <h2 id="files">Datei hochladen</h2>
-<form method="post" action="x_file_upload.php" enctype="multipart/form-data">
+<form method="post" action="x_file_upload.php" enctype="multipart/form-data" class="mb-3">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
   <input type="hidden" name="x_id" value="<?= (int)$x['id'] ?>">
-  <input type="file" name="file">
-  <button type="submit">Upload</button>
+  <div class="mb-3">
+    <input type="file" name="file" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-secondary w-100">Upload</button>
 </form>
 <?php if ($files): ?>
-<ul>
+<ul class="list-group mb-3">
   <?php foreach($files as $f): ?>
-    <li><a href="../../<?=h($f['stored_path'])?>" download><?=h($f['original_name'])?></a></li>
+    <li class="list-group-item"><a href="../../<?=h($f['stored_path'])?>" download><?=h($f['original_name'])?></a></li>
   <?php endforeach; ?>
 </ul>
 <?php endif; ?>
 
 <h2 id="comments">Kommentar</h2>
-<form method="post" action="x_comment_add.php">
+<form method="post" action="x_comment_add.php" class="mb-3">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
   <input type="hidden" name="x_id" value="<?= (int)$x['id'] ?>">
-  <textarea name="body"></textarea><br>
-  <button>Kommentieren</button>
+  <div class="mb-3">
+    <textarea name="body" class="form-control"></textarea>
+  </div>
+  <button class="btn btn-secondary w-100">Kommentieren</button>
 </form>
 <h2>Löschen</h2>
-<form method="post" action="x_delete.php" onsubmit="return confirm('Wirklich löschen?');">
+<form method="post" action="x_delete.php" onsubmit="return confirm('Wirklich löschen?');" class="mb-3">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
   <input type="hidden" name="id" value="<?= (int)$x['id'] ?>">
-  <button type="submit">Löschen</button>
+  <button type="submit" class="btn btn-danger w-100">Löschen</button>
 </form>
 <?php if ($comments): ?>
-<ul>
+<ul class="list-group">
   <?php foreach($comments as $c): ?>
-    <li><strong><?=h($c['username'])?></strong> (<?=h($c['created_at'])?>): <?=nl2br(h($c['body']))?></li>
+    <li class="list-group-item"><strong><?=h($c['username'])?></strong> (<?=h($c['created_at'])?>): <?=nl2br(h($c['body']))?></li>
   <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-</body></html>
+<?php require __DIR__.'/../core/footer.php'; ?>
 

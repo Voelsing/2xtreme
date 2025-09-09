@@ -82,7 +82,7 @@ require __DIR__.'/../core/header.php';
 ?>
 <h1>Users</h1>
 
-<table border="1" cellpadding="4">
+<table class="table table-striped">
 <tr><th>ID</th><th>Username</th><th>Email</th><th>Roles</th><th></th></tr>
 <?php foreach($users as $u): ?>
 <tr>
@@ -90,7 +90,7 @@ require __DIR__.'/../core/header.php';
   <td><?= h($u['username']) ?></td>
   <td><?= h($u['email']) ?></td>
   <td><?= h($u['roles']) ?></td>
-  <td><a href="?edit=<?= (int)$u['id'] ?>">edit</a></td>
+  <td><a href="?edit=<?= (int)$u['id'] ?>" class="btn btn-sm btn-secondary">edit</a></td>
  </tr>
 <?php endforeach; ?>
 </table>
@@ -101,17 +101,27 @@ require __DIR__.'/../core/header.php';
   <?php if($editUser): ?>
     <input type="hidden" name="id" value="<?= (int)$editUser['id'] ?>">
   <?php endif; ?>
-  <label>Username <input name="username" value="<?=h($editUser['username'] ?? '')?>"></label><br>
-  <label>Email <input name="email" value="<?=h($editUser['email'] ?? '')?>"></label><br>
-  <label>Password <input type="password" name="password"></label><br>
-  <label>Roles
-    <select name="roles[]" multiple size="5">
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input name="username" value="<?=h($editUser['username'] ?? '')?>" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input name="email" value="<?=h($editUser['email'] ?? '')?>" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" name="password" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Roles</label>
+    <select name="roles[]" multiple size="5" class="form-select">
       <?php foreach($allRoles as $r): ?>
         <option value="<?=$r['id'] ?>" <?= in_array($r['id'], $editRoles) ? 'selected' : '' ?>><?= h($r['name']) ?></option>
       <?php endforeach; ?>
     </select>
-  </label><br>
-  <button type="submit">Save</button>
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Save</button>
 </form>
 
 <?php require __DIR__.'/../core/footer.php'; ?>
