@@ -26,8 +26,14 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 <?php $title='Login'; require __DIR__.'/../core/header.php'; ?>
 <form method="post">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
-  <label>Username <input name="username" autocomplete="username"></label><br>
-  <label>Password <input type="password" name="password" autocomplete="current-password"></label><br>
-  <button type="submit">Login</button>
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input name="username" autocomplete="username" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" name="password" autocomplete="current-password" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Login</button>
 </form>
 <?php require __DIR__.'/../core/footer.php'; ?>

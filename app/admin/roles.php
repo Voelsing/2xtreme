@@ -40,13 +40,13 @@ require __DIR__.'/../core/header.php';
 ?>
 <h1>Roles</h1>
 
-<table border="1" cellpadding="4">
+<table class="table table-striped">
 <tr><th>ID</th><th>Name</th><th></th></tr>
 <?php foreach($roles as $r): ?>
 <tr>
   <td><?= (int)$r['id'] ?></td>
   <td><?= h($r['name']) ?></td>
-  <td><a href="?edit=<?= (int)$r['id'] ?>">edit</a></td>
+  <td><a href="?edit=<?= (int)$r['id'] ?>" class="btn btn-sm btn-secondary">edit</a></td>
 </tr>
 <?php endforeach; ?>
 </table>
@@ -57,8 +57,11 @@ require __DIR__.'/../core/header.php';
   <?php if($editRole): ?>
     <input type="hidden" name="id" value="<?= (int)$editRole['id'] ?>">
   <?php endif; ?>
-  <label>Name <input name="name" value="<?= h($editRole['name'] ?? '') ?>"></label><br>
-  <button type="submit">Save</button>
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input name="name" value="<?= h($editRole['name'] ?? '') ?>" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Save</button>
 </form>
 
 <?php require __DIR__.'/../core/footer.php'; ?>

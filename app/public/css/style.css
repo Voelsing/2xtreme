@@ -1,7 +1,4 @@
-nav {
-  background: #eee;
-  padding: 10px;
-}
-nav a {
-  margin-right: 10px;
+/* Custom styles for Bootstrap layout */
+.card {
+  border-radius: 1rem;
 }

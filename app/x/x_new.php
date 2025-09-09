@@ -4,8 +4,14 @@
 <h1>x anlegen</h1>
 <form method="post" action="x_create.php">
   <input type="hidden" name="csrf" value="<?=htmlspecialchars(csrfToken(),ENT_QUOTES)?>">
-  <label>Titel <input name="title"></label><br>
-  <label>Beschreibung <textarea name="description"></textarea></label><br>
-  <button type="submit">Speichern</button>
+  <div class="mb-3">
+    <label class="form-label">Titel</label>
+    <input name="title" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Beschreibung</label>
+    <textarea name="description" class="form-control"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Speichern</button>
 </form>
 <?php require __DIR__.'/../core/footer.php'; ?>
