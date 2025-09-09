@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/../core/bootstrap.php'; checkCsrfOrFail(); requirePerm($perms,'x.delete');
-$id=(int)($_GET['id']??0); if ($id<=0){ http_response_code(400); exit('bad'); }
+$id=(int)($_POST['id']??0); if ($id<=0){ http_response_code(400); exit('bad'); }
 $cur=$conn->prepare("SELECT owner_id FROM x WHERE id=? AND is_deleted=0");
 $cur->bind_param('i',$id); $cur->execute(); $cur->bind_result($ownerId);
 if(!$cur->fetch()){ http_response_code(404); exit('not found'); } $cur->close();
