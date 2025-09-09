@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__.'/../core/bootstrap.php'; checkCsrfOrFail();
 $xId=(int)($_POST['x_id']??0); $body=trim($_POST['body']??'');
@@ -11,3 +10,4 @@ $h=$conn->prepare("INSERT INTO x_history (x_id,actor_id,action,field,new_value) 
 $a='comment_added'; $f='comment'; $h->bind_param('iisss',$xId,$userId,$a,$f,$body); $h->execute(); $h->close();
 audit($conn,$userId,'x.comment','x',(string)$xId,null);
 header("Location: x_view.php?id=".$xId."#comments");
+exit;
